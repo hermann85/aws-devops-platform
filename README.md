@@ -65,7 +65,11 @@ Chaque push sur main déclenche le déploiement automatique.
 ## Conseil important pour impressionner les recruteurs (à supprimer apès)
 
 Ajoutez dans votre README :
+
 📷 screenshot Grafana dashboard
+
 📷 screenshot GitHub Actions pipeline
+
 📷 screenshot application web
+
 Cela rend le projet beaucoup plus crédible.
