@@ -57,8 +57,8 @@ Chaque push sur main déclenche le déploiement automatique.
 
 Ajoutez dans votre README :
 
-📷 screenshot Grafana dashboard
-📷 screenshot GitHub Actions pipeline
-📷 screenshot application web
+- 📷 screenshot Grafana dashboard
+- 📷 screenshot GitHub Actions pipeline
+- 📷 screenshot application web
 
 Cela rend le projet beaucoup plus crédible.
