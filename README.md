@@ -29,7 +29,7 @@ terraform apply
 
 ## Étape 3 : Se connecter au serveur
 
-ssh ec2-user@IP_INSTANCE
+ssh ec2-user@IP_INSTANCE : ssh -i .\aws-devops-platform.pem ec2-user@IP_INSTANCE 
 
 ## Étape 4 : Lancer l'application
 

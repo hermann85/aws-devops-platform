@@ -1,0 +1,24 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Terraform binary
+terraform.exe
+terraform
+
+# Variables sensibles
+*.tfvars
+!terraform.tfvars.example
+
+# Clés privées
+*.pem
+
+# Logs
+*.log
+
+# OS / Editor
+.vscode/
+.DS_Store
+Thumbs.db
