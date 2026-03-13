@@ -17,8 +17,8 @@ Terraform → AWS EC2 → Docker → CI/CD → Monitoring
 
 ## Étape 1 : Cloner le projet
 
-git clone https://github.com/votrecompte/aws-devops-terraform-docker-cicd-monitoring
-cd aws-devops-terraform-docker-cicd-monitoring
+- git clone https://github.com/votrecompte/aws-devops-terraform-docker-cicd-monitoring
+- cd aws-devops-terraform-docker-cicd-monitoring
 
 ## Étape 2 : Déployer l'infrastructure AWS
 
