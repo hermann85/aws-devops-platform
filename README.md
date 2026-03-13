@@ -22,10 +22,10 @@ Terraform → AWS EC2 → Docker → CI/CD → Monitoring
 
 ## Étape 2 : Déployer l'infrastructure AWS
 
-cd terraform
-terraform init
-terraform plan
-terraform apply
+- cd terraform
+- terraform init
+- terraform plan
+- terraform apply
 
 ## Étape 3 : Se connecter au serveur
 
@@ -33,23 +33,23 @@ ssh ec2-user@IP_INSTANCE : ssh -i .\aws-devops-platform.pem ec2-user@IP_INSTANCE
 
 ## Étape 4 : Lancer l'application
 
-cd app
-docker build -t web .
-docker run -d -p 80:80 web
+- cd app :
+- docker build -t web .
+- docker run -d -p 80:80 web
 
 ## Étape 5 : Monitoring
 
-cd monitoring
-docker-compose up -d
-Grafana : http://IP_INSTANCE:3000
-Prometheus : http://IP_INSTANCE:9090
+- cd monitoring :
+- docker-compose up -d
+- Grafana : http://IP_INSTANCE:3000
+- Prometheus : http://IP_INSTANCE:9090
 
 ## Étape 6 : CI/CD
 
 Créer les secrets GitHub :
 
-HOST
-SSH_KEY
+- HOST
+- SSH_KEY
 
 Chaque push sur main déclenche le déploiement automatique.
 
