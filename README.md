@@ -78,19 +78,9 @@ Chaque push sur main déclenche le déploiement automatique.
 
 ### Résultat attendu : 
 
-- À la fin du projet, vous disposerez de :
+À la fin du projet, vous disposerez de :
 
 - une infrastructure AWS déployée avec Terraform
 - une application Docker en cours d'exécution sur EC2
 - un pipeline CI/CD opérationnel avec GitHub Actions
 - une supervision active avec Prometheus et Grafana
-
-## Conseil important pour impressionner les recruteurs (à supprimer apès)
-
-Ajoutez dans votre README :
-
-- 📷 screenshot Grafana dashboard
-- 📷 screenshot GitHub Actions pipeline
-- 📷 screenshot application web
-
-Cela rend le projet beaucoup plus crédible.
