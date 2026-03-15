@@ -1,4 +1,4 @@
-# AWS DevOps Terraform Docker CI/CD Monitoring
+# AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
 
 Projet DevOps démontrant le déploiement automatisé d'une application Docker sur AWS avec Terraform et GitHub Actions.
 
