@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.5"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -8,5 +10,9 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-west-3"
+  region = var.aws_region
+
+  default_tags {
+    tags = var.common_tags
+  }
 }
