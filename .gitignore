@@ -2,23 +2,29 @@
 .terraform/
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# Terraform binary
-terraform.exe
-terraform
+# Terraform lock
+.terraform.lock.hcl
 
 # Variables sensibles
 *.tfvars
 !terraform.tfvars.example
 
-# Clés privées
+# Secrets
 *.pem
+*.key
 
 # Logs
 *.log
 
-# OS / Editor
+# Editor
 .vscode/
 .DS_Store
 Thumbs.db
+
+terraform.exe*
