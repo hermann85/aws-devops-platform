@@ -22,12 +22,3 @@ output "ssh_connection" {
   description = "SSH command to connect to the instance"
   value       = "ssh ec2-user@${aws_instance.web.public_ip}"
 }
-
-# output "instance_ip" {
-#   description = "Public IP of EC2"
-#   value       = aws_instance.web.public_ip
-# }
-
-# output "ssh_connection" {
-#   value = "ssh ec2-user@${aws_instance.web.public_ip}"
-# }
