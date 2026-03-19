@@ -1,5 +1,5 @@
 variable "aws_region" {
-  description = "AWS region"
+  description = "Région AWS"
   type        = string
   default     = "eu-west-3"
 }
@@ -35,7 +35,7 @@ variable "private_subnet_cidr" {
 }
 
 variable "public_subnet_map_public_ip" {
-  description = "Assigne automatiquement une IP publique aux instances du subnet public"
+  description = "Assigne automatiquement une IP publique dans le subnet public"
   type        = bool
   default     = true
 }
@@ -44,6 +44,12 @@ variable "default_route_cidr" {
   description = "Route par défaut"
   type        = string
   default     = "0.0.0.0/0"
+}
+
+variable "availability_zone" {
+  description = "Availability Zone à utiliser. Null = AWS choisit automatiquement."
+  type        = string
+  default     = null
 }
 
 variable "vpc_name" {
@@ -169,11 +175,11 @@ variable "ami_name_filter" {
 variable "instance_type" {
   description = "Type d'instance EC2"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "key_name" {
-  description = "Nom de la clé SSH AWS"
+  description = "Nom de la key pair AWS existante"
   type        = string
 }
 
@@ -202,11 +208,11 @@ variable "ec2_name" {
 }
 
 variable "common_tags" {
-  description = "Tags communs à toutes les ressources"
+  description = "Tags communs"
   type        = map(string)
   default = {
     Environment = "dev"
-    Project     = "devops"
+    Project     = "aws-devops-platform"
     ManagedBy   = "Terraform"
   }
 }

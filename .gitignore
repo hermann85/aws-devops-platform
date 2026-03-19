@@ -9,10 +9,12 @@ override.tf.json
 *_override.tf.json
 
 # Terraform lock
-.terraform.lock.hcl
+# (DO NOT IGNORE)
+# .terraform.lock.hcl
 
 # Variables sensibles
 *.tfvars
+!terraform.tfvars
 !terraform.tfvars.example
 
 # Secrets

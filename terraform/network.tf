@@ -1,29 +1,33 @@
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
 
   tags = {
-    Name = "vpc-main"
+    Name = var.vpc_name
   }
 }
 
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = true
+  cidr_block              = var.public_subnet_cidr
+  availability_zone       = var.availability_zone
+  map_public_ip_on_launch = var.public_subnet_map_public_ip
 
   tags = {
-    Name = "subnet-public"
+    Name = var.public_subnet_name
+    Tier = "public"
   }
 }
 
 resource "aws_subnet" "private" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_cidr
+  availability_zone = var.availability_zone
 
   tags = {
-    Name = "subnet-private"
+    Name = var.private_subnet_name
+    Tier = "private"
   }
 }
 
@@ -31,7 +35,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "igw-main"
+    Name = var.internet_gateway_name
   }
 }
 
@@ -39,7 +43,7 @@ resource "aws_eip" "ip_ngw" {
   domain = "vpc"
 
   tags = {
-    Name = "eip-ngw"
+    Name = var.eip_name
   }
 }
 
@@ -50,7 +54,7 @@ resource "aws_nat_gateway" "ngw" {
   depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "nat-gateway"
+    Name = var.nat_gateway_name
   }
 }
 
@@ -58,8 +62,12 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.default_route_cidr
     gateway_id = aws_internet_gateway.igw.id
+  }
+
+  tags = {
+    Name = var.public_route_table_name
   }
 }
 
@@ -67,8 +75,12 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block     = var.default_route_cidr
     nat_gateway_id = aws_nat_gateway.ngw.id
+  }
+
+  tags = {
+    Name = var.private_route_table_name
   }
 }
 

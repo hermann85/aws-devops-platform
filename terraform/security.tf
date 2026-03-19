@@ -1,7 +1,7 @@
-// SECURITY GROUP
 resource "aws_security_group" "web_sg" {
-  name   = var.security_group_name
-  vpc_id = aws_vpc.main.id
+  name        = var.security_group_name
+  description = "Security group for EC2 web/monitoring instance"
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     description = "SSH"
@@ -36,16 +36,14 @@ resource "aws_security_group" "web_sg" {
   }
 
   egress {
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = var.egress_allowed_cidrs
   }
 
-  tags = merge(
-    var.common_tags,
-    {
-      Name = var.security_group_name
-    }
-  )
+  tags = {
+    Name = var.security_group_name
+  }
 }
