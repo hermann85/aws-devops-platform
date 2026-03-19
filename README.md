@@ -60,10 +60,10 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 ## Étape 5 : Monitoring
 
-- cd monitoring :
-- docker-compose up -d
-- Grafana : http://IP_INSTANCE:3000
-- Prometheus : http://IP_INSTANCE:9090
+- Mise en place de Prometheus pour collecter les métriques
+- Utilisation de node-exporter pour superviser l’instance EC2
+- Configuration de Grafana pour la visualisation des métriques
+- Création de dashboards personnalisés (CPU, mémoire, réseau)
 
 ## Étape 6 : CI/CD
 

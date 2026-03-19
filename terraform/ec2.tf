@@ -15,6 +15,7 @@ resource "aws_instance" "web" {
   subnet_id                   = aws_subnet.public.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = var.associate_public_ip_address
+  iam_instance_profile        = aws_iam_instance_profile.ec2_ssm_profile.name
 
   root_block_device {
     volume_size = var.root_volume_size
@@ -23,15 +24,55 @@ resource "aws_instance" "web" {
 
   user_data = <<-EOF
     #!/bin/bash
-    set -euxo pipefail
+    set -eux
 
     dnf update -y
-    dnf install -y docker git
+    dnf install -y docker git amazon-ssm-agent
 
     systemctl enable docker
     systemctl start docker
 
+    systemctl enable amazon-ssm-agent
+    systemctl start amazon-ssm-agent
+
     usermod -aG docker ec2-user
+
+    mkdir -p /opt/monitoring
+
+    cat > /opt/monitoring/prometheus.yml <<'EOC'
+    global:
+      scrape_interval: 15s
+
+    scrape_configs:
+      - job_name: "prometheus"
+        static_configs:
+          - targets: ["localhost:9090"]
+
+      - job_name: "node-exporter"
+        static_configs:
+          - targets: ["172.17.0.1:9100"]
+    EOC
+
+    sleep 10
+
+    docker run -d \
+      -p 3000:3000 \
+      --name grafana \
+      --restart unless-stopped \
+      grafana/grafana
+
+    docker run -d \
+      -p 9100:9100 \
+      --name node-exporter \
+      --restart unless-stopped \
+      prom/node-exporter
+
+    docker run -d \
+      -p 9090:9090 \
+      --name prometheus \
+      --restart unless-stopped \
+      -v /opt/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
+      prom/prometheus
   EOF
 
   tags = {
