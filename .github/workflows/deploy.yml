@@ -78,6 +78,6 @@ jobs:
 
             docker run -d \
               --name web \
-              --restart unless-stopped \
+              --restart unless-stopped \ 
               -p 80:80 \
               $ECR_URI:$IMAGE_TAG
