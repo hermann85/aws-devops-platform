@@ -65,6 +65,8 @@ Avant de commencer, assurez-vous d'avoir installé :
 - Configuration de Grafana pour la visualisation des métriques
 - Création de dashboards personnalisés (CPU, mémoire, réseau)
 
+![Grafana Dashboard](docs/images/grafana-dashboard.png)
+
 ## Étape 6 : CI/CD
 
 Créer les secrets GitHub :
