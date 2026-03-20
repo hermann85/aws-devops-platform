@@ -68,16 +68,15 @@ jobs:
             ACCOUNT_ID="${{ secrets.AWS_ACCOUNT_ID }}"
             IMAGE_TAG="${{ needs.build-and-push.outputs.image_tag }}"
             ECR_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-devops-platform"
+            IMAGE="${ECR_URI}:${IMAGE_TAG}"
 
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+            echo "Deploying image: $IMAGE"
 
-            docker pull $ECR_URI:$IMAGE_TAG
+            aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+
+            docker pull "$IMAGE"
 
             docker stop web || true
             docker rm web || true
 
-            docker run -d \
-              --name web \
-              --restart unless-stopped \ 
-              -p 80:80 \
-              $ECR_URI:$IMAGE_TAG
+            docker run -d --name web --restart unless-stopped -p 80:80 "$IMAGE"
