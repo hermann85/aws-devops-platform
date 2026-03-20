@@ -1,28 +1,35 @@
-# AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
+# 🚀 AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
 
-Projet DevOps démontrant le déploiement automatisé d'une application Docker sur AWS avec Terraform et GitHub Actions.
+Projet DevOps démontrant le déploiement automatisé d'une application Docker sur AWS avec Terraform, GitHub Actions et Amazon ECR.
 
-## Objectif du projet
+---
 
-Ce projet a pour but de montrer la mise en place d'une chaîne DevOps complète :
+## 🎯 Objectif du projet
 
-- provisionnement d'une infrastructure AWS avec Terraform
-- déploiement d'une application conteneurisée avec Docker
-- automatisation du déploiement avec GitHub Actions
-- supervision de l'infrastructure et de l'application avec Prometheus et Grafana
+Ce projet a pour but de mettre en place une chaîne DevOps complète :
 
-## Technologies
+- Provisionnement d'une infrastructure AWS avec Terraform
+- Conteneurisation d'une application avec Docker
+- Mise en place d’un pipeline CI/CD avec GitHub Actions
+- Déploiement automatisé via Amazon ECR et EC2
+- Supervision avec Prometheus et Grafana
 
-- **AWS**
-- **Terraform**
+---
+
+## 🛠️ Technologies utilisées
+
+- **AWS (EC2, IAM, ECR)**
+- **Terraform (Infrastructure as Code)**
 - **Docker**
-- **GitHub Actions**
+- **GitHub Actions (CI/CD)**
 - **Prometheus**
 - **Grafana**
 
-## Architecture
+---
 
-Terraform → AWS EC2 → Docker → CI/CD → Monitoring
+## 🏗️ Architecture
+
+GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Prometheus → Grafana
 
 ## Prérequis
 
@@ -46,7 +53,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 - terraform plan
 - terraform apply
 
-## Étape 3 : Se connecter au serveur
+## Étape 3 : Se connecter à l'instance EC2
 
 - ssh -i .\aws-devops-platform.pem ec2-user@IP_INSTANCE 
 
@@ -76,13 +83,35 @@ Créer les secrets GitHub :
 
 Chaque push sur main déclenche le déploiement automatique.
 
-## Conseil
+### Compétences démontrées : 
 
-### Résultat attendu : 
+- Infrastructure as Code (Terraform)
+- CI/CD avec GitHub Actions
+- Containerisation avec Docker
+- Déploiement AWS (EC2 + ECR)
+- Monitoring (Prometheus / Grafana)
+- Gestion des permissions IAM
+- Debug et troubleshooting cloud
 
-À la fin du projet, vous disposerez de :
+# Sécurité
 
-- une infrastructure AWS déployée avec Terraform
-- une application Docker en cours d'exécution sur EC2
-- un pipeline CI/CD opérationnel avec GitHub Actions
-- une supervision active avec Prometheus et Grafana
+- Utilisation de rôles IAM pour EC2
+- Accès restreint via Security Groups
+- Gestion des secrets avec GitHub Actions
+
+# Améliorations possibles
+
+- Backend Terraform distant (S3 + DynamoDB)
+- Migration vers ECS / Kubernetes (EKS)
+- Mise en place HTTPS (Nginx + Let's Encrypt)
+- Alerting Grafana
+- Déploiement multi-environnements (dev/staging/prod)
+
+### Résultat :
+
+À la fin du projet :
+
+- Infrastructure AWS automatisée avec Terraform
+- Application Docker déployée automatiquement via CI/CD
+- Pipeline GitHub Actions fonctionnel avec ECR
+- Monitoring en temps réel avec Prometheus et Grafana
