@@ -45,6 +45,17 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
+      - name: Test container
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ steps.vars.outputs.image_tag }}
+        run: |
+          docker run -d -p 8080:80 --name test-container $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          sleep 5
+          curl -f http://localhost:8080
+          docker stop test-container
+          docker rm test-container
+
       - name: Push Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
