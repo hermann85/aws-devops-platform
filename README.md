@@ -78,8 +78,12 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 Créer les secrets GitHub :
 
-- HOST
-- SSH_KEY
+- EC2_HOST
+- EC2_SSH_KEY
+- EC2_USER
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_ACCOUNT_ID
 
 Chaque push sur main déclenche le déploiement automatique.
 
