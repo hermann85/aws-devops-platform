@@ -116,4 +116,4 @@ Chaque push sur main déclenche le déploiement automatique.
 - Pipeline GitHub Actions fonctionnel avec ECR
 - Monitoring en temps réel avec Prometheus et Grafana
 
-# Auteur : Hermann Bienvenu DZOUAVELE IKYA / Ingénieur Devops 
+Auteur : Hermann Bienvenu DZOUAVELE IKYA / Ingénieur Devops 
