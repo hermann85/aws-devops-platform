@@ -109,6 +109,20 @@ Créer les secrets GitHub :
 
 Chaque push sur main déclenche le déploiement automatique.
 
+# Stratégie de branches
+
+Le projet suit une stratégie de gestion des branches adaptée à un workflow DevOps :
+
+- development : environnement de développement et d’intégration
+- staging : environnement de préproduction pour validation
+- main : environnement de production
+
+Workflow : development → staging → main
+
+- Les nouvelles fonctionnalités sont développées sur development
+- Les versions stables sont testées sur staging
+- Les versions validées sont déployées en production via main
+
 # Sécurité
 
 - Utilisation de rôles IAM pour EC2
