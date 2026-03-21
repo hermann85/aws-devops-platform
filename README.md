@@ -1,6 +1,6 @@
 # 🚀 AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
 
-Projet DevOps démontrant le déploiement automatisé d'une application Docker sur AWS avec Terraform, GitHub Actions et Amazon ECR.
+Projet DevOps démontrant le déploiement automatisé d'une application conteneurisée sur AWS, en s'appuyant sur Terraform, Docker, GitHub Actions et Amazon ECR, avec supervision complète.
 
 ---
 
@@ -18,7 +18,7 @@ Ce projet a pour but de mettre en place une chaîne DevOps complète :
 
 ## 🛠️ Technologies utilisées
 
-- **AWS (EC2, IAM, ECR)**
+- **AWS (EC2, IAM, ECR, S3, DynamoDB)**
 - **Terraform (Infrastructure as Code)**
 - **Docker**
 - **GitHub Actions (CI/CD)**
@@ -30,6 +30,24 @@ Ce projet a pour but de mettre en place une chaîne DevOps complète :
 ## 🏗️ Architecture
 
 GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Prometheus → Grafana
+
+## Le projet utilise un backend Terraform distant basé sur Amazon S3 pour le stockage du state et DynamoDB pour le verrouillage.
+
+Avantages :
+- Stockage sécurisé et centralisé du state
+- Verrouillage des déploiements pour éviter les conflits
+- Compatible avec les workflows CI/CD
+- Prêt pour le travail en équipe
+
+terraform {
+  backend "s3" {
+    bucket         = "hdb-devops-terraform-state-2026"
+    key            = "dev/aws-devops-platform/terraform.tfstate"
+    region         = "eu-west-3"
+    dynamodb_table = "terraform-locks"
+    encrypt        = true
+  }
+}
 
 ## Prérequis
 
@@ -43,7 +61,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 ## Étape 1 : Cloner le projet
 
-- git clone https://github.com/votrecompte/aws-devops-terraform-docker-cicd-monitoring
+- git clone https://github.com/hermann85/aws-devops-platform.git
 - cd aws-devops-terraform-docker-cicd-monitoring
 
 ## Étape 2 : Déployer l'infrastructure AWS
@@ -87,6 +105,12 @@ Créer les secrets GitHub :
 
 Chaque push sur main déclenche le déploiement automatique.
 
+# Sécurité
+
+- Utilisation de rôles IAM pour EC2
+- Accès restreint via Security Groups
+- Gestion des secrets avec GitHub Actions
+
 ### Compétences démontrées : 
 
 - Infrastructure as Code (Terraform)
@@ -94,18 +118,11 @@ Chaque push sur main déclenche le déploiement automatique.
 - Containerisation avec Docker
 - Déploiement AWS (EC2 + ECR)
 - Monitoring (Prometheus / Grafana)
-- Gestion des permissions IAM
+- Gestion des permissions (IAM, Security Groups)
 - Debug et troubleshooting cloud
-
-# Sécurité
-
-- Utilisation de rôles IAM pour EC2
-- Accès restreint via Security Groups
-- Gestion des secrets avec GitHub Actions
 
 # Améliorations possibles
 
-- Backend Terraform distant (S3 + DynamoDB)
 - Migration vers ECS / Kubernetes (EKS)
 - Mise en place HTTPS (Nginx + Let's Encrypt)
 - Alerting Grafana
@@ -116,8 +133,10 @@ Chaque push sur main déclenche le déploiement automatique.
 À la fin du projet :
 
 - Infrastructure AWS automatisée avec Terraform
+- Backend Terraform sécurisé avec S3 + DynamoDB
 - Application Docker déployée automatiquement via CI/CD
 - Pipeline GitHub Actions fonctionnel avec ECR
 - Monitoring en temps réel avec Prometheus et Grafana
 
-Auteur : Hermann Bienvenu DZOUAVELE IKYA / Ingénieur Devops 
+Auteur : Hermann Bienvenu DZOUAVELE IKYA 
+- Ingénieur Devops 
