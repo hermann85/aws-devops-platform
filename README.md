@@ -146,10 +146,10 @@ Workflow : development → staging → main
 
 # Améliorations possibles
 
-- Migration vers ECS / Kubernetes (EKS)
 - Mise en place HTTPS (Nginx + Let's Encrypt)
-- Alerting Grafana
-- Déploiement multi-environnements (dev/staging/prod)
+- Alerting Grafana : SMPT à finir
+- Déploiement multi-environnements (dev/staging/prod) : en cours
+- Migration vers ECS / Kubernetes (EKS) 
 
 ### Résultat :
 
