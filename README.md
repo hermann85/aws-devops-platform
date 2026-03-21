@@ -123,6 +123,11 @@ Workflow : development → staging → main
 - Les versions stables sont testées sur staging
 - Les versions validées sont déployées en production via main
 
+État actuel :
+
+- Actuellement, seul l’environnement dev est déployé.
+- Les environnements staging et prod constituent une évolution prévue du projet.
+
 # Sécurité
 
 - Utilisation de rôles IAM pour EC2
