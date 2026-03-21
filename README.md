@@ -31,6 +31,19 @@ Ce projet a pour but de mettre en place une chaîne DevOps complète :
 
 GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Prometheus → Grafana
 
+## Architecture détaillée
+
+![Grafana Dashboard](docs/images/Architecture_DevOps_complete.png)
+
+## Description de l'architecture
+
+- Le code est versionné sur GitHub
+- GitHub Actions construit l'image Docker et la pousse vers Amazon ECR
+- Terraform provisionne l'infrastructure AWS (EC2, réseau, sécurité)
+- L'instance EC2 exécute les conteneurs Docker
+- Prometheus collecte les métriques via node-exporter
+- Grafana permet la visualisation et l'alerting
+
 ## Le projet utilise un backend Terraform distant basé sur Amazon S3 pour le stockage du state et DynamoDB pour le verrouillage.
 
 Avantages :
