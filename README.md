@@ -133,6 +133,11 @@ Workflow : development → staging → main
 - Utilisation de rôles IAM pour EC2
 - Accès restreint via Security Groups
 - Gestion des secrets avec GitHub Actions
+- Mise en place d’un reverse proxy avec Nginx
+- Génération de certificats SSL avec Let's Encrypt (Certbot)
+- Accès sécurisé via HTTPS :
+  - https://grafana.hdb-devops.fr
+  - https://prometheus.hdb-devops.fr
 
 ### Compétences démontrées : 
 
@@ -146,10 +151,9 @@ Workflow : development → staging → main
 
 # Améliorations possibles
 
-- Mise en place HTTPS (Nginx + Let's Encrypt)
 - Alerting Grafana : SMPT à finir
 - Déploiement multi-environnements (dev/staging/prod) : en cours
-- Migration vers ECS / Kubernetes (EKS) 
+- Migration vers ECS / Kubernetes (EKS) : à venir
 
 ### Résultat :
 
