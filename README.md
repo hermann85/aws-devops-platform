@@ -50,7 +50,6 @@ Avantages :
 - Stockage sécurisé et centralisé du state
 - Verrouillage des déploiements pour éviter les conflits
 - Compatible avec les workflows CI/CD
-- Prêt pour le travail en équipe
 
 ![Grafana Dashboard](docs/images/backend.png)
 
