@@ -44,7 +44,7 @@ GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Prometheus → G
 - Prometheus collecte les métriques via node-exporter
 - Grafana permet la visualisation et l'alerting
 
-# Le projet utilise un backend Terraform distant basé sur Amazon S3 pour le stockage du state et DynamoDB pour le verrouillage.
+#### Le projet utilise un backend Terraform distant basé sur Amazon S3 pour le stockage du state et DynamoDB pour le verrouillage.
 
 Avantages :
 - Stockage sécurisé et centralisé du state
