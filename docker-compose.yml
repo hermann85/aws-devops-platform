@@ -14,7 +14,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - grafana
-      - prometheus
+      - prometheus 
 
   grafana:
     image: grafana/grafana
