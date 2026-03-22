@@ -1,4 +1,4 @@
-# 🚀 AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
+## 🚀 AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
 
 Projet DevOps démontrant le déploiement automatisé d'une application conteneurisée sur AWS, en s'appuyant sur Terraform, Docker, GitHub Actions et Amazon ECR, avec supervision complète.
 
