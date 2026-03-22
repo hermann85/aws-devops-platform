@@ -136,6 +136,7 @@ Workflow : development → staging → main
 - Mise en place d’un reverse proxy avec Nginx
 - Génération de certificats SSL avec Let's Encrypt (Certbot)
 - Accès sécurisé via HTTPS :
+  - https://hdb-devops.fr
   - https://grafana.hdb-devops.fr
   - https://prometheus.hdb-devops.fr
 
