@@ -3,7 +3,10 @@ name: Deploy App
 on:
   push:
     branches:
+      - development
+      - staging
       - main
+      
     paths:
       - 'app/**'
       - '.github/workflows/deploy.yml'

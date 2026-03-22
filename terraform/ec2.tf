@@ -75,8 +75,23 @@ resource "aws_instance" "web" {
       prom/prometheus
   EOF
 
-  tags = {
-    Name = var.ec2_name
-    Role = "web-monitoring"
-  }
+  tags = merge(
+    var.common_tags,
+    {
+      Name = var.ec2_name
+      Role = "web-monitoring"
+    }
+  )
+}
+
+resource "aws_eip" "web_eip" {
+  domain   = "vpc"
+  instance = aws_instance.web.id
+
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.ec2_name}-eip"
+    }
+  )
 }

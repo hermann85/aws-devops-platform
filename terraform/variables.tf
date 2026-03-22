@@ -118,6 +118,12 @@ variable "http_port" {
   default     = 80
 }
 
+variable "https_port" {
+  description = "Port HTTPS"
+  type        = number
+  default     = 443
+}
+
 variable "grafana_port" {
   description = "Port Grafana"
   type        = number
@@ -128,6 +134,12 @@ variable "prometheus_port" {
   description = "Port Prometheus"
   type        = number
   default     = 9090
+}
+
+variable "node_exporter_port" {
+  description = "Port Node Exporter"
+  type        = number
+  default     = 9100
 }
 
 variable "ssh_allowed_cidrs" {
@@ -150,6 +162,12 @@ variable "grafana_allowed_cidrs" {
 
 variable "prometheus_allowed_cidrs" {
   description = "CIDR autorisés pour Prometheus"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "node_exporter_allowed_cidrs" {
+  description = "CIDR autorisés pour Node Exporter"
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }

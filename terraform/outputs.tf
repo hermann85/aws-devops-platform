@@ -19,8 +19,8 @@ output "instance_id" {
 }
 
 output "instance_ip" {
-  description = "Adresse IP publique de l'instance EC2"
-  value       = aws_instance.web.public_ip
+  description = "Adresse IP publique fixe (Elastic IP)"
+  value       = aws_eip.web_eip.public_ip
 }
 
 output "instance_dns" {
@@ -29,16 +29,21 @@ output "instance_dns" {
 }
 
 output "grafana_url" {
-  description = "URL Grafana si le service écoute bien sur le port 3000"
-  value       = "http://${aws_instance.web.public_ip}:${var.grafana_port}"
+  description = "URL Grafana"
+  value       = "http://${aws_eip.web_eip.public_ip}:${var.grafana_port}"
 }
 
 output "prometheus_url" {
-  description = "URL Prometheus si le service écoute bien sur le port 9090"
-  value       = "http://${aws_instance.web.public_ip}:${var.prometheus_port}"
+  description = "URL Prometheus"
+  value       = "http://${aws_eip.web_eip.public_ip}:${var.prometheus_port}"
+}
+
+output "node_exporter_url" {
+  description = "URL Node Exporter"
+  value       = "http://${aws_eip.web_eip.public_ip}:${var.node_exporter_port}"
 }
 
 output "ssh_connection" {
   description = "Commande SSH de connexion"
-  value       = "ssh -i <path-to-private-key> ec2-user@${aws_instance.web.public_ip}"
+  value       = "ssh -i <path-to-private-key> ec2-user@${aws_eip.web_eip.public_ip}"
 }
