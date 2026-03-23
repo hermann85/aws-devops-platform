@@ -154,7 +154,8 @@ Workflow : development → staging → main
 
 - Alerting Grafana : SMPT à finir
 - Déploiement multi-environnements (dev/staging/prod) : en cours
-- Migration vers ECS / Kubernetes (EKS) : à venir
+- Migration vers ECS / Kubernetes (EKS)
+- Mise en place d’un load balancer
 
 ### Résultat :
 
