@@ -109,7 +109,7 @@ Créer les secrets GitHub :
 
 Chaque push sur main déclenche le déploiement automatique.
 
-# Stratégie de branches
+## Stratégie de branches
 
 Le projet suit une stratégie de gestion des branches adaptée à un workflow DevOps :
 
@@ -128,7 +128,7 @@ Workflow : development → staging → main
 - Actuellement, seul l’environnement dev est déployé.
 - Les environnements staging et prod constituent une évolution prévue du projet.
 
-# Sécurité
+## Sécurité
 
 - Utilisation de rôles IAM pour EC2
 - Accès restreint via Security Groups
@@ -140,7 +140,7 @@ Workflow : development → staging → main
   - https://grafana.hdb-devops.fr
   - https://prometheus.hdb-devops.fr
 
-### Compétences démontrées : 
+## Compétences démontrées : 
 
 - Infrastructure as Code (Terraform)
 - CI/CD avec GitHub Actions
@@ -150,14 +150,14 @@ Workflow : development → staging → main
 - Gestion des permissions (IAM, Security Groups)
 - Debug et troubleshooting cloud
 
-# Améliorations possibles
+## Améliorations possibles
 
 - Alerting Grafana : SMPT à finir
 - Déploiement multi-environnements (dev/staging/prod) : en cours
 - Migration vers Kubernetes (EKS)
 - Mise en place d’un load balancer
 
-### Résultat :
+## Résultat :
 
 À la fin du projet :
 
