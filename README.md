@@ -44,7 +44,7 @@ GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Prometheus → G
 - Prometheus collecte les métriques via node-exporter
 - Grafana permet la visualisation et l'alerting
 
-##### Le projet utilise un backend Terraform distant basé sur Amazon S3 pour le stockage du state et DynamoDB pour le verrouillage.
+## Le projet utilise un Backend Terraform distant : S3 (state) et DynamoDB (verrouillage)..
 
 Avantages :
 - Stockage sécurisé et centralisé du state
@@ -78,7 +78,6 @@ Avant de commencer, assurez-vous d'avoir installé :
 ## Étape 3 : Se connecter à l'instance EC2
 
 - ssh -i .\aws-devops-platform.pem ec2-user@IP_INSTANCE 
-
 - Remplacez IP_INSTANCE par l'adresse IP publique de votre instance EC2.
 
 ## Étape 4 : Lancer l'application
