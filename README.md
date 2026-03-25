@@ -167,4 +167,4 @@ Workflow : development → staging → main
 - Monitoring en temps réel avec Prometheus et Grafana
 
 Auteur : Hermann Bienvenu DZOUAVELE IKYA 
-- Ingénieur Devops 
+- Ingénieur Devops Cloud (AWS)
