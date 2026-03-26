@@ -3,10 +3,7 @@ name: Deploy App
 on:
   push:
     branches:
-      - development
-      - staging
       - main
-      
     paths:
       - 'app/**'
       - '.github/workflows/deploy.yml'
@@ -56,8 +53,16 @@ jobs:
           docker run -d -p 8080:80 --name test-container $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           sleep 5
           curl -f http://localhost:8080
-          docker stop test-container
-          docker rm test-container
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker logs test-container || true
+
+      - name: Cleanup test container
+        if: always()
+        run: |
+          docker stop test-container || true
+          docker rm test-container || true
 
       - name: Push Docker image
         env:
@@ -70,6 +75,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Deploy on EC2
@@ -85,7 +91,7 @@ jobs:
             ACCOUNT_ID="${{ secrets.AWS_ACCOUNT_ID }}"
             IMAGE_TAG="${{ needs.build-and-push.outputs.image_tag }}"
             IMAGE_TAG=$(echo "$IMAGE_TAG" | tr -d '\n' | tr -d '\r')
-            ECR_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-devops-platform"
+            ECR_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${{ env.ECR_REPOSITORY }}"
             IMAGE="${ECR_URI}:${IMAGE_TAG}"
 
             echo "Deploying image: $IMAGE"
@@ -97,4 +103,8 @@ jobs:
             docker stop web || true
             docker rm web || true
 
-            docker run -d --name web --restart unless-stopped -p 80:80 "$IMAGE"
+            docker run -d \
+              --name web \
+              --restart unless-stopped \
+              -p 80:80 \
+              "$IMAGE"
