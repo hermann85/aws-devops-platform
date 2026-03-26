@@ -85,7 +85,7 @@ Chaque push sur main déclenche :
 - push vers ECR
 - déploiement sur EC2
 
-# CI/CD
+## CI/CD
 
 Pipeline GitHub Actions :
 
@@ -103,7 +103,7 @@ Créer les secrets GitHub :
 - AWS_SECRET_ACCESS_KEY
 - AWS_ACCOUNT_ID
 
-# Monitoring
+## Monitoring
 
 - Prometheus collecte les métriques
 - Node Exporter supervise l’EC2
@@ -112,7 +112,7 @@ Créer les secrets GitHub :
 
 ![Grafana Dashboard](docs/images/grafana-dashboard.png)
 
-# Sécurité
+## Sécurité
 
 - IAM roles pour EC2
 - Security Groups restreints
@@ -120,7 +120,7 @@ Créer les secrets GitHub :
 - Reverse proxy Nginx
 - HTTPS avec Let's Encrypt
 
-# Stratégie de branches
+## Stratégie de branches
 
 - development : développement
 - staging : validation
@@ -128,7 +128,7 @@ Créer les secrets GitHub :
 
 Workflow : development → staging → main
 
-# Compétences démontrées : 
+## Compétences démontrées : 
 
 - Infrastructure as Code (Terraform)
 - CI/CD (GitHub Actions)
@@ -138,7 +138,7 @@ Workflow : development → staging → main
 - Monitoring (Prometheus + Grafana)
 - Debug & troubleshooting cloud
 
-# Améliorations possibles
+## Améliorations possibles
 
 - Alerting Grafana (email / Slack)
 - Multi-environnements (dev/staging/prod)
@@ -146,7 +146,7 @@ Workflow : development → staging → main
 - Auto Scaling
 - Migration Kubernetes (EKS)
 
-# Résultat :
+## Résultat :
 
 À la fin du projet :
 

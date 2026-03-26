@@ -1,4 +1,4 @@
-$bg: #0f172a;
+$bg: #04f535;
 $panel: #111827;
 $panel-light: #1f2937;
 $primary: #38bdf8;
@@ -47,23 +47,23 @@ body {
   }
 }
 
-.badge {
-  display: inline-block;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(56, 189, 248, 0.14);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  color: $primary;
-  font-size: 0.95rem;
-  font-weight: bold;
-}
+// .badge {
+//   display: inline-block;
+//   padding: 10px 16px;
+//   border-radius: 999px;
+//   background: rgba(56, 189, 248, 0.14);
+//   border: 1px solid rgba(56, 189, 248, 0.35);
+//   color: $primary;
+//   font-size: 0.95rem;
+//   font-weight: bold;
+// }
 
 main {
   padding: 32px 0 48px;
 }
 
 .card {
-  background: rgba(17, 24, 39, 0.9);
+  background: rgba(244, 6, 6, 0.9);
   border: 1px solid $border;
   border-radius: 18px;
   padding: 28px;
