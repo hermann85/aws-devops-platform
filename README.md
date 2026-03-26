@@ -40,9 +40,7 @@ Mettre en place une chaîne DevOps complète incluant :
 
 ## 🏗️ Architecture
 
-GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Nginx → HTTPS
-                                              ↓
-                                      Prometheus → Grafana
+![Grafana Dashboard](docs/images/architecture.png)
 
 Diagramme
 
