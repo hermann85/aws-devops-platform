@@ -1,101 +1,100 @@
 ## 🚀 AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
 
-Projet DevOps démontrant le déploiement automatisé d'une application conteneurisée sur AWS, en s'appuyant sur Terraform, Docker, GitHub Actions et Amazon ECR, avec supervision complète.
+Plateforme DevOps complète démontrant un déploiement automatisé sur AWS avec Terraform, Docker, CI/CD et monitoring.
 
 ---
 
 ## 🎯 Objectif du projet
 
-Ce projet a pour but de mettre en place une chaîne DevOps complète :
+Mettre en place une chaîne DevOps complète incluant :
 
-- Provisionnement d'une infrastructure AWS avec Terraform
-- Conteneurisation d'une application avec Docker
-- Mise en place d’un pipeline CI/CD avec GitHub Actions
+- Provisionnement d’infrastructure avec Terraform
+- Conteneurisation avec Docker
+- Pipeline CI/CD avec GitHub Actions
 - Déploiement automatisé via Amazon ECR et EC2
-- Supervision avec Prometheus et Grafana
+- Monitoring avec Prometheus et Grafana
+- Exposition sécurisée via Nginx + HTTPS (Let's Encrypt)
 
 ---
 
-## 🛠️ Technologies utilisées
+## 🛠️ Stack technique
 
-- **AWS (EC2, IAM, ECR, S3, DynamoDB)**
-- **Terraform (Infrastructure as Code)**
-- **Docker**
-- **GitHub Actions (CI/CD)**
-- **Prometheus**
-- **Grafana**
+- **AWS** : EC2, IAM, ECR, S3, DynamoDB
+- **Terraform** : Infrastructure as Code
+- **Docker** : Containerisation
+- **GitHub Actions** : CI/CD
+- **Nginx** : Reverse proxy
+- **Prometheus** : Collecte des métriques
+- **Grafana** : Visualisation & alerting
+- **Certbot / Let's Encrypt** : HTTPS
+
+---
+
+## 🌐 Accès aux services
+
+- 🔗 Application : https://hdb-devops.fr  
+- 📊 Grafana : https://grafana.hdb-devops.fr  
+- 📈 Prometheus : https://prometheus.hdb-devops.fr
 
 ---
 
 ## 🏗️ Architecture
 
-GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Prometheus → Grafana
+GitHub → GitHub Actions → Amazon ECR → EC2 → Docker → Nginx → HTTPS
+                                              ↓
+                                      Prometheus → Grafana
 
-## Architecture détaillée
+Diagramme
 
 ![Grafana Dashboard](docs/images/Architecture_DevOps_complete.png)
 
-## Description de l'architecture
+## Backend Terraform
 
-- Le code est versionné sur GitHub
-- GitHub Actions construit l'image Docker et la pousse vers Amazon ECR
-- Terraform provisionne l'infrastructure AWS (EC2, réseau, sécurité)
-- L'instance EC2 exécute les conteneurs Docker
-- Prometheus collecte les métriques via node-exporter
-- Grafana permet la visualisation et l'alerting
-
-## Backend Terraform distant : S3 (state) et DynamoDB (verrouillage)..
+- S3 : stockage du state
+- DynamoDB : verrouillage
 
 Avantages :
-- Stockage sécurisé et centralisé du state
-- Verrouillage des déploiements pour éviter les conflits
-- Compatible avec les workflows CI/CD
+- State centralisé
+- Sécurité renforcée
+- Compatible CI/CD
 
 ![Grafana Dashboard](docs/images/backend.png)
 
-## Prérequis
-
-Avant de commencer, assurez-vous d'avoir installé :
-
-- Terraform
-- Docker
-- Git
-- un compte AWS
-- une paire de clés SSH pour se connecter à l'instance EC2
-
-## Étape 1 : Cloner le projet
+## 1. Cloner le projet
 
 - git clone https://github.com/hermann85/aws-devops-platform.git
 - cd aws-devops-terraform-docker-cicd-monitoring
 
-## Étape 2 : Déployer l'infrastructure AWS
+## 2. Déployer l’infrastructure
 
 - cd terraform
 - terraform init
 - terraform plan
 - terraform apply
 
-## Étape 3 : Se connecter à l'instance EC2
+## 3. Connexion à EC2
 
 - ssh -i .\aws-devops-platform.pem ec2-user@IP_INSTANCE 
 - Remplacez IP_INSTANCE par l'adresse IP publique de votre instance EC2.
 
-## Étape 4 : Lancer l'application
+## 4. Déploiement applicatif
 
-- cd app :
-- docker build -t web .
-- docker run -d -p 80:80 web
+👉 Automatique via GitHub Actions
 
-## Étape 5 : Monitoring
+Chaque push sur main déclenche :
 
-- Mise en place de Prometheus pour collecter les métriques
-- Utilisation de node-exporter pour superviser l’instance EC2
-- Configuration de Grafana pour la visualisation des métriques
-- Création de dashboards personnalisés (CPU, mémoire, réseau)
+- build Docker
+- push vers ECR
+- déploiement sur EC2
 
-![Grafana Dashboard](docs/images/grafana-dashboard.png)
+# CI/CD
 
-## Étape 6 : CI/CD
+Pipeline GitHub Actions :
+
+- Build image Docker
+- Tests container
+- Push vers Amazon ECR
+- Déploiement automatique via SSH
 
 Créer les secrets GitHub :
 
@@ -106,65 +105,58 @@ Créer les secrets GitHub :
 - AWS_SECRET_ACCESS_KEY
 - AWS_ACCOUNT_ID
 
-Chaque push sur main déclenche le déploiement automatique.
+# Monitoring
 
-## Stratégie de branches
+- Prometheus collecte les métriques
+- Node Exporter supervise l’EC2
+- Grafana visualise les données
+- Dashboard Node Exporter intégré
 
-Le projet suit une stratégie de gestion des branches adaptée à un workflow DevOps :
+![Grafana Dashboard](docs/images/grafana-dashboard.png)
 
-- development : environnement de développement et d’intégration
-- staging : environnement de préproduction pour validation
-- main : environnement de production
+# Sécurité
+
+- IAM roles pour EC2
+- Security Groups restreints
+- Secrets via GitHub Actions
+- Reverse proxy Nginx
+- HTTPS avec Let's Encrypt
+
+# Stratégie de branches
+
+- development : développement
+- staging : validation
+- main : production
 
 Workflow : development → staging → main
 
-- Les nouvelles fonctionnalités sont développées sur development
-- Les versions stables sont testées sur staging
-- Les versions validées sont déployées en production via main
-
-État actuel :
-
-- Actuellement, seul l’environnement dev est déployé.
-- Les environnements staging et prod constituent une évolution prévue du projet.
-
-## Sécurité
-
-- Utilisation de rôles IAM pour EC2
-- Accès restreint via Security Groups
-- Gestion des secrets avec GitHub Actions
-- Mise en place d’un reverse proxy avec Nginx
-- Génération de certificats SSL avec Let's Encrypt (Certbot)
-- Accès sécurisé via HTTPS :
-  - https://hdb-devops.fr
-  - https://grafana.hdb-devops.fr
-  - https://prometheus.hdb-devops.fr
-
-## Compétences démontrées : 
+# Compétences démontrées : 
 
 - Infrastructure as Code (Terraform)
-- CI/CD avec GitHub Actions
-- Containerisation avec Docker
-- Déploiement AWS (EC2 + ECR)
-- Monitoring (Prometheus / Grafana)
-- Gestion des permissions (IAM, Security Groups)
-- Debug et troubleshooting cloud
+- CI/CD (GitHub Actions)
+- Docker & containerisation
+- Déploiement AWS (EC2, ECR)
+- Reverse proxy & HTTPS
+- Monitoring (Prometheus + Grafana)
+- Debug & troubleshooting cloud
 
-## Améliorations possibles
+# Améliorations possibles
 
-- Alerting Grafana : SMPT à finir
-- Déploiement multi-environnements (dev/staging/prod) : en cours
-- Migration vers Kubernetes (EKS)
-- Mise en place d’un load balancer
+- Alerting Grafana (email / Slack)
+- Multi-environnements (dev/staging/prod)
+- Load Balancer AWS (ALB)
+- Auto Scaling
+- Migration Kubernetes (EKS)
 
-## Résultat :
+# Résultat :
 
 À la fin du projet :
 
-- Infrastructure AWS automatisée avec Terraform
-- Backend Terraform sécurisé avec S3 + DynamoDB
-- Application Docker déployée automatiquement via CI/CD
-- Pipeline GitHub Actions fonctionnel avec ECR
-- Monitoring en temps réel avec Prometheus et Grafana
+- Infrastructure AWS automatisée
+- Déploiement continu fonctionnel
+- Monitoring complet
+- Plateforme sécurisée HTTPS
+- Architecture DevOps production-ready
 
 Auteur : Hermann Bienvenu DZOUAVELE IKYA 
 - Ingénieur Devops Cloud (AWS)
