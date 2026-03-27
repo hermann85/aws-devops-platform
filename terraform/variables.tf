@@ -4,10 +4,22 @@ variable "aws_region" {
   default     = "eu-west-3"
 }
 
+variable "availability_zone" {
+  description = "Availability Zone à utiliser. Null = AWS choisit automatiquement."
+  type        = string
+  default     = null
+}
+
 variable "vpc_cidr" {
   description = "CIDR block du VPC"
   type        = string
   default     = "10.0.0.0/16"
+}
+
+variable "public_subnet_cidr" {
+  description = "CIDR block du subnet public"
+  type        = string
+  default     = "10.0.1.0/24"
 }
 
 variable "enable_dns_support" {
@@ -22,18 +34,6 @@ variable "enable_dns_hostnames" {
   default     = true
 }
 
-variable "public_subnet_cidr" {
-  description = "CIDR block du subnet public"
-  type        = string
-  default     = "10.0.1.0/24"
-}
-
-variable "private_subnet_cidr" {
-  description = "CIDR block du subnet privé"
-  type        = string
-  default     = "10.0.2.0/24"
-}
-
 variable "public_subnet_map_public_ip" {
   description = "Assigne automatiquement une IP publique dans le subnet public"
   type        = bool
@@ -44,12 +44,6 @@ variable "default_route_cidr" {
   description = "Route par défaut"
   type        = string
   default     = "0.0.0.0/0"
-}
-
-variable "availability_zone" {
-  description = "Availability Zone à utiliser. Null = AWS choisit automatiquement."
-  type        = string
-  default     = null
 }
 
 variable "vpc_name" {
@@ -64,40 +58,16 @@ variable "public_subnet_name" {
   default     = "subnet-public"
 }
 
-variable "private_subnet_name" {
-  description = "Nom du subnet privé"
-  type        = string
-  default     = "subnet-private"
-}
-
 variable "internet_gateway_name" {
   description = "Nom de l'Internet Gateway"
   type        = string
   default     = "igw-main"
 }
 
-variable "eip_name" {
-  description = "Nom de l'Elastic IP"
-  type        = string
-  default     = "eip-ngw"
-}
-
-variable "nat_gateway_name" {
-  description = "Nom du NAT Gateway"
-  type        = string
-  default     = "nat-gateway"
-}
-
 variable "public_route_table_name" {
   description = "Nom de la route table publique"
   type        = string
   default     = "public-rt"
-}
-
-variable "private_route_table_name" {
-  description = "Nom de la route table privée"
-  type        = string
-  default     = "private-rt"
 }
 
 variable "security_group_name" {
@@ -143,9 +113,9 @@ variable "node_exporter_port" {
 }
 
 variable "ssh_allowed_cidrs" {
-  description = "CIDR autorisés pour SSH"
+  description = "CIDR autorisés pour SSH. Laisse [] pour désactiver SSH et utiliser seulement SSM."
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
 }
 
 variable "http_allowed_cidrs" {
@@ -154,22 +124,28 @@ variable "http_allowed_cidrs" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "https_allowed_cidrs" {
+  description = "CIDR autorisés pour HTTPS"
+  type        = list(string)
+  default     = []
+}
+
 variable "grafana_allowed_cidrs" {
   description = "CIDR autorisés pour Grafana"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
 }
 
 variable "prometheus_allowed_cidrs" {
   description = "CIDR autorisés pour Prometheus"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
 }
 
 variable "node_exporter_allowed_cidrs" {
   description = "CIDR autorisés pour Node Exporter"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
 }
 
 variable "egress_allowed_cidrs" {
@@ -185,7 +161,7 @@ variable "ami_owner" {
 }
 
 variable "ami_name_filter" {
-  description = "Filtre de nom pour l'AMI"
+  description = "Filtre de nom pour l'AMI Amazon Linux"
   type        = string
   default     = "al2023-ami-*-x86_64"
 }
@@ -197,15 +173,11 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  description = "Nom de la key pair AWS existante"
+  description = "Nom de la key pair AWS existante. Optionnel si accès SSM uniquement."
   type        = string
+  default     = null
 }
 
-variable "associate_public_ip_address" {
-  description = "Associer une IP publique à l'instance"
-  type        = bool
-  default     = true
-}
 
 variable "root_volume_size" {
   description = "Taille du volume root"

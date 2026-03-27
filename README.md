@@ -1,6 +1,6 @@
-## 🚀 AWS DevOps Platform with Terraform, Docker, CI/CD and Monitoring
+## 🚀 AWS DevOps Platform – Terraform, Docker, CI/CD & Monitoring
 
-Plateforme DevOps complète démontrant un déploiement automatisé sur AWS avec Terraform, Docker, CI/CD et monitoring.
+Plateforme DevOps complète démontrant le déploiement automatisé d’une application sur AWS avec Infrastructure as Code, conteneurisation, CI/CD et monitoring sécurisé.
 
 ---
 
@@ -12,21 +12,21 @@ Mettre en place une chaîne DevOps complète incluant :
 - Conteneurisation avec Docker
 - Pipeline CI/CD avec GitHub Actions
 - Déploiement automatisé via Amazon ECR et EC2
-- Monitoring avec Prometheus et Grafana
+- Monitoring avec Prometheus & Grafana
 - Exposition sécurisée via Nginx + HTTPS (Let's Encrypt)
 
 ---
 
 ## 🛠️ Stack technique
 
-- **AWS** : EC2, IAM, ECR, S3, DynamoDB
-- **Terraform** : Infrastructure as Code
-- **Docker** : Containerisation
-- **GitHub Actions** : CI/CD
-- **Nginx** : Reverse proxy
-- **Prometheus** : Collecte des métriques
-- **Grafana** : Visualisation & alerting
-- **Certbot / Let's Encrypt** : HTTPS
+- AWS : EC2, IAM, ECR, S3, DynamoDB
+- Terraform : Infrastructure as Code
+- Docker & Docker Compose : Containerisation
+- GitHub Actions : CI/CD
+- Nginx : Reverse proxy
+- Prometheus : Collecte des métriques
+- Grafana : Visualisation & dashboards
+- Certbot / Let's Encrypt : HTTPS
 
 ---
 
@@ -40,23 +40,33 @@ Mettre en place une chaîne DevOps complète incluant :
 
 ## 🏗️ Architecture
 
-![Grafana Dashboard](docs/images/architecture.png)
-
 Diagramme
 
 ![Grafana Dashboard](docs/images/Architecture_DevOps_complete.png)
 
-## Backend Terraform
+## Stack
 
-- S3 : stockage du state
-- DynamoDB : verrouillage
+## Cloud
+- AWS EC2 (Compute)
+- AWS ECR (Container registry)
+- AWS S3 (Terraform state)
+- AWS DynamoDB (State locking)
+- IAM (Security)
 
-Avantages :
-- State centralisé
-- Sécurité renforcée
-- Compatible CI/CD
+## DevOps
+- Terraform (Infrastructure as Code)
+- Docker & Docker Compose
+- GitHub Actions (CI/CD)
 
-![Grafana Dashboard](docs/images/backend.png)
+## Monitoring
+- Prometheus
+- Node Exporter
+- Grafana
+
+## Networking & Security
+- Nginx Reverse Proxy
+- HTTPS (Let's Encrypt)
+- Security Groups
 
 ## 1. Cloner le projet
 
@@ -64,7 +74,6 @@ Avantages :
 - cd aws-devops-terraform-docker-cicd-monitoring
 
 ## 2. Déployer l’infrastructure
-
 - cd terraform
 - terraform init
 - terraform plan

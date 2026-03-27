@@ -1,12 +1,18 @@
+## IP fixe via Elastic IP gérée par Terraform.
+## Aucune variable supplémentaire nécessaire.
+
 aws_region = "eu-west-3"
 
-key_name = "aws-devops-platform"
+# Optionnel si tu gardes un accès SSH, sinon laisse null et utilise SSM.
+key_name = null
 
-ssh_allowed_cidrs  = ["82.64.120.245/32"]
+ssh_allowed_cidrs  = []
 http_allowed_cidrs = ["0.0.0.0/0"]
+https_allowed_cidrs = []
 
 grafana_allowed_cidrs    = ["82.64.120.245/32"]
 prometheus_allowed_cidrs = ["82.64.120.245/32"]
+node_exporter_allowed_cidrs = ["82.64.120.245/32"]
 
 common_tags = {
   Environment = "dev"

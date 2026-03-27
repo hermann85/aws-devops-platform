@@ -14,12 +14,17 @@ resource "aws_instance" "web" {
   key_name                    = var.key_name
   subnet_id                   = aws_subnet.public.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
-  associate_public_ip_address = var.associate_public_ip_address
+  associate_public_ip_address = false
   iam_instance_profile        = aws_iam_instance_profile.ec2_ssm_profile.name
+
+  metadata_options {
+    http_tokens = "required"
+  }
 
   root_block_device {
     volume_size = var.root_volume_size
     volume_type = var.root_volume_type
+    encrypted   = true
   }
 
   user_data = <<-EOF
@@ -59,6 +64,7 @@ resource "aws_instance" "web" {
       -p 3000:3000 \
       --name grafana \
       --restart unless-stopped \
+      -v grafana-data:/var/lib/grafana \
       grafana/grafana
 
     docker run -d \
@@ -71,6 +77,7 @@ resource "aws_instance" "web" {
       -p 9090:9090 \
       --name prometheus \
       --restart unless-stopped \
+      -v prometheus-data:/prometheus \
       -v /opt/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
       prom/prometheus
   EOF
@@ -84,14 +91,20 @@ resource "aws_instance" "web" {
   )
 }
 
-resource "aws_eip" "web_eip" {
-  domain   = "vpc"
-  instance = aws_instance.web.id
+
+resource "aws_eip" "app" {
+  domain = "vpc"
 
   tags = merge(
     var.common_tags,
     {
       Name = "${var.ec2_name}-eip"
+      Role = "public-static-ip"
     }
   )
+}
+
+resource "aws_eip_association" "app" {
+  instance_id   = aws_instance.web.id
+  allocation_id = aws_eip.app.id
 }
