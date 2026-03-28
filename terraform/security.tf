@@ -52,7 +52,7 @@ locals {
 }
 
 resource "aws_security_group" "web_sg" {
-  name        = var.security_group_name
+  name        = "${var.environment}-${var.security_group_name}"
   description = "Security group for DevOps platform"
   vpc_id      = aws_vpc.main.id
 
@@ -63,9 +63,12 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = var.egress_allowed_cidrs
   }
 
-  tags = {
-    Name = var.security_group_name
-  }
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.environment}-${var.security_group_name}"
+    }
+  )
 }
 
 resource "aws_vpc_security_group_ingress_rule" "this" {

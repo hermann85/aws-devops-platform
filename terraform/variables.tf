@@ -178,7 +178,6 @@ variable "key_name" {
   default     = null
 }
 
-
 variable "root_volume_size" {
   description = "Taille du volume root"
   type        = number
@@ -201,8 +200,17 @@ variable "common_tags" {
   description = "Tags communs"
   type        = map(string)
   default = {
-    Environment = "dev"
-    Project     = "aws-devops-platform"
-    ManagedBy   = "Terraform"
+    Project   = "aws-devops-platform"
+    ManagedBy = "Terraform"
   }
+}
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
+variable "domain_name" {
+  description = "Main domain for the environment"
+  type        = string
 }

@@ -23,19 +23,29 @@ output "instance_dns" {
   value       = aws_instance.web.public_dns
 }
 
-output "grafana_url" {
-  description = "URL Grafana"
+output "grafana_url_ip" {
+  description = "URL Grafana via IP"
   value       = "http://${aws_eip.app.public_ip}:${var.grafana_port}"
 }
 
-output "prometheus_url" {
-  description = "URL Prometheus"
+output "prometheus_url_ip" {
+  description = "URL Prometheus via IP"
   value       = "http://${aws_eip.app.public_ip}:${var.prometheus_port}"
 }
 
-output "node_exporter_url" {
-  description = "URL Node Exporter"
+output "node_exporter_url_ip" {
+  description = "URL Node Exporter via IP"
   value       = "http://${aws_eip.app.public_ip}:${var.node_exporter_port}"
+}
+
+output "app_url" {
+  description = "URL de l'application"
+  value       = "http://${var.domain_name}"
+}
+
+output "app_https_url" {
+  description = "URL HTTPS de l'application"
+  value       = "https://${var.domain_name}"
 }
 
 output "ssm_connection_hint" {

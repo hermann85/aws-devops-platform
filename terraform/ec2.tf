@@ -64,7 +64,6 @@ resource "aws_instance" "web" {
       -p 3000:3000 \
       --name grafana \
       --restart unless-stopped \
-      -v grafana-data:/var/lib/grafana \
       grafana/grafana
 
     docker run -d \
@@ -77,7 +76,6 @@ resource "aws_instance" "web" {
       -p 9090:9090 \
       --name prometheus \
       --restart unless-stopped \
-      -v prometheus-data:/prometheus \
       -v /opt/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
       prom/prometheus
   EOF
@@ -85,12 +83,11 @@ resource "aws_instance" "web" {
   tags = merge(
     var.common_tags,
     {
-      Name = var.ec2_name
+      Name = "${var.environment}-${var.ec2_name}"
       Role = "web-monitoring"
     }
   )
 }
-
 
 resource "aws_eip" "app" {
   domain = "vpc"
@@ -98,8 +95,7 @@ resource "aws_eip" "app" {
   tags = merge(
     var.common_tags,
     {
-      Name = "${var.ec2_name}-eip"
-      Role = "public-static-ip"
+      Name = "${var.environment}-${var.ec2_name}-eip"
     }
   )
 }

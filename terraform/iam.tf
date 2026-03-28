@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2_ssm_role" {
-  name = "ec2-ssm-role"
+  name = "${var.environment}-ec2-ssm-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -14,9 +14,13 @@ resource "aws_iam_role" "ec2_ssm_role" {
     ]
   })
 
-  tags = {
-    Name = "ec2-ssm-role"
-  }
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.environment}-ec2-ssm-role"
+      Role = "ssm"
+    }
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "ssm_core" {
@@ -25,6 +29,14 @@ resource "aws_iam_role_policy_attachment" "ssm_core" {
 }
 
 resource "aws_iam_instance_profile" "ec2_ssm_profile" {
-  name = "ec2-ssm-profile"
+  name = "${var.environment}-ec2-ssm-profile"
   role = aws_iam_role.ec2_ssm_role.name
+
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.environment}-ec2-ssm-profile"
+      Role = "instance-profile"
+    }
+  )
 }
