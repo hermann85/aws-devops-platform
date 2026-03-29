@@ -38,17 +38,17 @@ output "node_exporter_url_ip" {
   value       = "http://${aws_eip.app.public_ip}:${var.node_exporter_port}"
 }
 
-output "app_url" {
-  description = "URL de l'application"
-  value       = "http://${var.domain_name}"
+output "grafana_url_domain" {
+  description = "URL Grafana via domaine"
+  value       = "http://${local.grafana_domain}"
 }
 
-output "app_https_url" {
-  description = "URL HTTPS de l'application"
-  value       = "https://${var.domain_name}"
+output "prometheus_url_domain" {
+  description = "URL Prometheus via domaine"
+  value       = "http://${local.prometheus_domain}"
 }
 
 output "ssm_connection_hint" {
-  description = "Commande indicative pour une session SSM"
+  description = "Commande pour se connecter via SSM"
   value       = "aws ssm start-session --target ${aws_instance.web.id}"
 }

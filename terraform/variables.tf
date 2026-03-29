@@ -1,79 +1,105 @@
+variable "environment" {
+  description = "Environnement (staging ou prod)"
+  type        = string
+}
+
+variable "ec2_name" {
+  description = "Nom de l'instance EC2"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Type d'instance EC2"
+  type        = string
+  default     = "t3.micro"
+}
+
+variable "key_name" {
+  description = "Nom de la clé SSH"
+  type        = string
+}
+
+variable "ami_owner" {
+  description = "Owner AMI Amazon Linux"
+  type        = string
+  default     = "amazon"
+}
+
+variable "ami_name_filter" {
+  description = "Filtre AMI"
+  type        = string
+  default     = "al2023-ami-*-x86_64"
+}
+
+variable "root_volume_size" {
+  description = "Taille disque root"
+  type        = number
+  default     = 10
+}
+
+variable "root_volume_type" {
+  description = "Type disque root"
+  type        = string
+  default     = "gp3"
+}
+
+# 🔐 Sécurité
+variable "ssh_allowed_cidrs" {
+  description = "IP autorisées SSH"
+  type        = list(string)
+}
+
+variable "http_allowed_cidrs" {
+  description = "IP autorisées HTTP"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "https_allowed_cidrs" {
+  description = "IP autorisées HTTPS"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "grafana_allowed_cidrs" {
+  description = "IP autorisées Grafana"
+  type        = list(string)
+}
+
+variable "prometheus_allowed_cidrs" {
+  description = "IP autorisées Prometheus"
+  type        = list(string)
+}
+
+variable "node_exporter_allowed_cidrs" {
+  description = "IP autorisées Node Exporter"
+  type        = list(string)
+}
+
+# 🏷️ Tags
+variable "common_tags" {
+  description = "Tags communs"
+  type        = map(string)
+  default = {
+    Project = "aws-devops-platform"
+    Owner   = "HDB"
+  }
+}
+
 variable "aws_region" {
   description = "Région AWS"
   type        = string
   default     = "eu-west-3"
 }
 
-variable "availability_zone" {
-  description = "Availability Zone à utiliser. Null = AWS choisit automatiquement."
-  type        = string
-  default     = null
-}
-
-variable "vpc_cidr" {
-  description = "CIDR block du VPC"
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
-variable "public_subnet_cidr" {
-  description = "CIDR block du subnet public"
-  type        = string
-  default     = "10.0.1.0/24"
-}
-
-variable "enable_dns_support" {
-  description = "Active le support DNS dans le VPC"
-  type        = bool
-  default     = true
-}
-
-variable "enable_dns_hostnames" {
-  description = "Active les hostnames DNS dans le VPC"
-  type        = bool
-  default     = true
-}
-
-variable "public_subnet_map_public_ip" {
-  description = "Assigne automatiquement une IP publique dans le subnet public"
-  type        = bool
-  default     = true
-}
-
-variable "default_route_cidr" {
-  description = "Route par défaut"
-  type        = string
-  default     = "0.0.0.0/0"
-}
-
-variable "vpc_name" {
-  description = "Nom du VPC"
-  type        = string
-  default     = "vpc-main"
-}
-
-variable "public_subnet_name" {
-  description = "Nom du subnet public"
-  type        = string
-  default     = "subnet-public"
-}
-
-variable "internet_gateway_name" {
-  description = "Nom de l'Internet Gateway"
-  type        = string
-  default     = "igw-main"
-}
-
-variable "public_route_table_name" {
-  description = "Nom de la route table publique"
-  type        = string
-  default     = "public-rt"
-}
-
 variable "security_group_name" {
   description = "Nom du security group"
   type        = string
-  default     = "devops-web-sg"
+}
+
+variable "domain_name" {
+  description = "Nom de domaine principal"
+  type        = string
 }
 
 variable "ssh_port" {
@@ -112,105 +138,74 @@ variable "node_exporter_port" {
   default     = 9100
 }
 
-variable "ssh_allowed_cidrs" {
-  description = "CIDR autorisés pour SSH. Laisse [] pour désactiver SSH et utiliser seulement SSM."
-  type        = list(string)
-  default     = []
-}
-
-variable "http_allowed_cidrs" {
-  description = "CIDR autorisés pour HTTP"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
-
-variable "https_allowed_cidrs" {
-  description = "CIDR autorisés pour HTTPS"
-  type        = list(string)
-  default     = []
-}
-
-variable "grafana_allowed_cidrs" {
-  description = "CIDR autorisés pour Grafana"
-  type        = list(string)
-  default     = []
-}
-
-variable "prometheus_allowed_cidrs" {
-  description = "CIDR autorisés pour Prometheus"
-  type        = list(string)
-  default     = []
-}
-
-variable "node_exporter_allowed_cidrs" {
-  description = "CIDR autorisés pour Node Exporter"
-  type        = list(string)
-  default     = []
-}
-
 variable "egress_allowed_cidrs" {
   description = "CIDR autorisés en sortie"
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
 
-variable "ami_owner" {
-  description = "Owner ID de l'AMI Amazon Linux"
+variable "vpc_cidr" {
+  description = "CIDR du VPC"
   type        = string
-  default     = "137112412989"
+  default     = "10.0.0.0/16"
 }
 
-variable "ami_name_filter" {
-  description = "Filtre de nom pour l'AMI Amazon Linux"
+variable "enable_dns_support" {
+  description = "Activer DNS support sur le VPC"
+  type        = bool
+  default     = true
+}
+
+variable "enable_dns_hostnames" {
+  description = "Activer DNS hostnames sur le VPC"
+  type        = bool
+  default     = true
+}
+
+variable "vpc_name" {
+  description = "Nom du VPC"
   type        = string
-  default     = "al2023-ami-*-x86_64"
+  default     = "aws-devops-vpc"
 }
 
-variable "instance_type" {
-  description = "Type d'instance EC2"
+variable "public_subnet_cidr" {
+  description = "CIDR du subnet public"
   type        = string
-  default     = "t3.micro"
+  default     = "10.0.1.0/24"
 }
 
-variable "key_name" {
-  description = "Nom de la key pair AWS existante. Optionnel si accès SSM uniquement."
+variable "availability_zone" {
+  description = "Availability Zone"
   type        = string
-  default     = null
+  default     = "eu-west-3a"
 }
 
-variable "root_volume_size" {
-  description = "Taille du volume root"
-  type        = number
-  default     = 20
+variable "public_subnet_map_public_ip" {
+  description = "Assigner automatiquement une IP publique"
+  type        = bool
+  default     = false
 }
 
-variable "root_volume_type" {
-  description = "Type du volume root"
+variable "public_subnet_name" {
+  description = "Nom du subnet public"
   type        = string
-  default     = "gp3"
+  default     = "aws-devops-public-subnet"
 }
 
-variable "ec2_name" {
-  description = "Nom de l'instance EC2"
+variable "internet_gateway_name" {
+  description = "Nom de l'internet gateway"
   type        = string
-  default     = "devops-ec2"
+  default     = "aws-devops-igw"
 }
 
-variable "common_tags" {
-  description = "Tags communs"
-  type        = map(string)
-  default = {
-    Project   = "aws-devops-platform"
-    ManagedBy = "Terraform"
-  }
-}
-
-variable "environment" {
-  description = "Environment name"
+variable "default_route_cidr" {
+  description = "Route par défaut"
   type        = string
+  default     = "0.0.0.0/0"
 }
 
-variable "domain_name" {
-  description = "Main domain for the environment"
+variable "public_route_table_name" {
+  description = "Nom de la table de routage publique"
   type        = string
+  default     = "aws-devops-public-rt"
 }

@@ -11,11 +11,11 @@ fi
 case "$ENVIRONMENT" in
   prod)
     SRC="nginx/prod.conf"
-    DEST="/etc/nginx/conf.d/default.conf"
+    DEST="/etc/nginx/conf.d/prod.conf"
     ;;
   staging)
     SRC="nginx/staging.conf"
-    DEST="/etc/nginx/conf.d/default.conf"
+    DEST="/etc/nginx/conf.d/staging.conf"
     ;;
   *)
     echo "Usage: $0 {prod|staging}"
@@ -28,8 +28,14 @@ if [ ! -f "$SRC" ]; then
   exit 1
 fi
 
+echo "Déploiement de $SRC vers $DEST"
+
 sudo cp "$SRC" "$DEST"
+
+# (optionnel) supprimer default.conf pour éviter conflit
+sudo rm -f /etc/nginx/conf.d/default.conf
+
 sudo nginx -t
 sudo systemctl reload nginx
 
-echo "Déploiement NGINX terminé pour: $ENVIRONMENT"
+echo "✅ Déploiement NGINX terminé pour: $ENVIRONMENT"

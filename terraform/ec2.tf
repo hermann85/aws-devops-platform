@@ -8,6 +8,11 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
+locals {
+  grafana_domain = var.environment == "staging" ? "staging-grafana.hdb-devops.fr" : "grafana.hdb-devops.fr"
+  prometheus_domain = var.environment == "staging" ? "staging-prometheus.hdb-devops.fr" : "prometheus.hdb-devops.fr"
+}
+
 resource "aws_instance" "web" {
   ami                         = data.aws_ami.amazon_linux.id
   instance_type               = var.instance_type
@@ -16,6 +21,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
   associate_public_ip_address = false
   iam_instance_profile        = aws_iam_instance_profile.ec2_ssm_profile.name
+  user_data_replace_on_change = true
 
   metadata_options {
     http_tokens = "required"
@@ -29,16 +35,19 @@ resource "aws_instance" "web" {
 
   user_data = <<-EOF
     #!/bin/bash
-    set -eux
+    set -euxo pipefail
 
     dnf update -y
-    dnf install -y docker git amazon-ssm-agent
+    dnf install -y docker git amazon-ssm-agent nginx
 
     systemctl enable docker
     systemctl start docker
 
     systemctl enable amazon-ssm-agent
     systemctl start amazon-ssm-agent
+
+    systemctl enable nginx
+    systemctl start nginx
 
     usermod -aG docker ec2-user
 
@@ -58,7 +67,8 @@ resource "aws_instance" "web" {
           - targets: ["172.17.0.1:9100"]
     EOC
 
-    sleep 10
+    # Nettoyage au cas où l'image ou le script soit rejoué
+    docker rm -f grafana prometheus node-exporter || true
 
     docker run -d \
       -p 3000:3000 \
@@ -78,6 +88,43 @@ resource "aws_instance" "web" {
       --restart unless-stopped \
       -v /opt/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
       prom/prometheus
+
+    cat > /etc/nginx/conf.d/grafana.conf <<EON
+    server {
+        listen 80;
+        server_name ${local.grafana_domain};
+
+        location / {
+            proxy_pass http://127.0.0.1:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+    }
+    EON
+
+    cat > /etc/nginx/conf.d/prometheus.conf <<EON
+    server {
+        listen 80;
+        server_name ${local.prometheus_domain};
+
+        location / {
+            proxy_pass http://127.0.0.1:9090;
+            proxy_http_version 1.1;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+    }
+    EON
+
+    rm -f /etc/nginx/conf.d/default.conf
+
+    nginx -t
+    systemctl restart nginx
   EOF
 
   tags = merge(
