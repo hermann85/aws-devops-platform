@@ -9,7 +9,7 @@ data "aws_ami" "amazon_linux" {
 }
 
 locals {
-  grafana_domain = var.environment == "staging" ? "staging-grafana.hdb-devops.fr" : "grafana.hdb-devops.fr"
+  grafana_domain    = var.environment == "staging" ? "staging-grafana.hdb-devops.fr" : "grafana.hdb-devops.fr"
   prometheus_domain = var.environment == "staging" ? "staging-prometheus.hdb-devops.fr" : "prometheus.hdb-devops.fr"
 }
 
